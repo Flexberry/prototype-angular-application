@@ -1,0 +1,23 @@
+<style>
+    .modal-body[aria-busy="true"] {
+        /* For "Loading" label */
+        min-height: 150px;
+    }
+</style>
+
+<div class="modal-header">
+    <h3 class="modal-title">Select anything...</h3>
+</div>
+<div class="modal-body" block-ui="block">
+    <ul>
+        <li ng-repeat="item in items">
+            <a ng-click="selected.item = item; ok();">
+                {{ item.TitleOfCourtesy }} {{ item.FirstName }} {{ item.LastName }} from {{ item.City }}, {{ item.Country }}
+            </a>
+        </li>
+    </ul>
+</div>
+<div class="modal-footer">
+    <!--<button class="btn btn-primary" ng-click="ok()">OK</button>-->
+    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+</div>

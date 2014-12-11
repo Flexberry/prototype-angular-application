@@ -1,11 +1,32 @@
-var app = angular.module('components', ['ngResource', 'ngRoute', 'ui.bootstrap', 'blockUI']);
+var app = angular.module('components', ['ngResource', 'ngRoute', 'ui.bootstrap', 'blockUI', 'ngGrid']);
 
-app.config(function(blockUIConfig) {
+app.config(function(blockUIConfig, $routeProvider) {
     // Disable automatically blocking of the user interface
     blockUIConfig.autoBlock = false;
+
+    $routeProvider
+        .when('/list', {
+            templateUrl: 'listform.html'
+        })
+        .when('/edit/:id', {
+            templateUrl: 'editform.html',
+            controller: 'editformController'
+        })
+        .when('/lookup', {
+            templateUrl: 'lookupExampleForm.html'
+        })
+        .when('/home', {
+            redirectTo: 'list'
+        })
+        .when('/', {
+            redirectTo: 'list'
+        })
+        .otherwise({
+            templateUrl: '404.html'
+        });
 });
 
-app.factory('service', function ($resource) {
+app.factory('service', function($resource) {
     var odataUrl = 'http://services.odata.org/V4/Northwind/Northwind.svc/Employees';
     return $resource('', {},
         {
@@ -17,12 +38,12 @@ app.factory('service', function ($resource) {
         });
 });
 
-app.controller('lookupController', function ($scope, $modal, $log, service, blockUI) {
+app.controller('lookupController', function($scope, $modal, $log, service, blockUI) {
 
     $scope.value = '';
     $scope.valueString = '';
 
-    $scope.open = function (size) {
+    $scope.open = function(size) {
         var modalInstance = $modal.open({
             templateUrl: 'lookupModal.html',
             controller: 'lookupModalController',
@@ -37,10 +58,10 @@ app.controller('lookupController', function ($scope, $modal, $log, service, bloc
             }
         });
 
-        modalInstance.result.then(function (selectedItem) {
+        modalInstance.result.then(function(selectedItem) {
             $scope.value = selectedItem;
             $scope.valueString = selectedItem.FirstName + ' ' + selectedItem.LastName;
-        }, function () {
+        }, function() {
             // Modal dismissed
         });
     };
@@ -48,7 +69,7 @@ app.controller('lookupController', function ($scope, $modal, $log, service, bloc
 
 // Please note that $modalInstance represents a modal window (instance) dependency.
 // It is not the same as the $modal service used above.
-app.controller('lookupModalController', function ($scope, $modalInstance, getItems, selectedItem, blockUI) {
+app.controller('lookupModalController', function($scope, $modalInstance, getItems, selectedItem, blockUI) {
 
     $scope.items = [];
 
@@ -63,23 +84,56 @@ app.controller('lookupModalController', function ($scope, $modalInstance, getIte
         item: selectedItem
     };
 
-    $scope.ok = function () {
+    $scope.ok = function() {
         $modalInstance.close($scope.selected.item);
     };
 
-    $scope.cancel = function () {
+    $scope.cancel = function() {
         $modalInstance.dismiss('cancel');
     };
 });
 
-app.directive('lookup', function () {
+app.directive('lookup', function() {
     return {
         restrict: 'E',
-        link: function (scope, element, attrs) {
+        link: function(scope, element, attrs) {
             scope.attrs = attrs;
         },
-        templateUrl: 'lookup.html'
+        templateUrl: 'lookup.html',
+        controller: 'lookupController'
     }
+});
+
+app.controller('wolvController', function($scope, $modal, $log, service, blockUI, $location) {
+    $scope.gridOptions = {
+        data: 'gridData',
+        multiSelect: false,
+        afterSelectionChange: function (rowItem, event) {
+            $location.path('/edit/' + rowItem.entity.EmployeeID);
+        }
+    };
+    (new service()).$getAll().then(function(data) {
+        $scope.gridData = data.value;
+    });
+
+});
+
+app.directive('wolv', function() {
+    return {
+        restrict: 'E',
+        templateUrl: 'wolv.html',
+        controller: 'wolvController'
+    }
+});
+
+app.controller('editformController', function($scope, $modal, $log, service, blockUI, $routeParams) {
+
+    blockUI.start();
+    (new service()).$query({ key: $routeParams.id }).then(function(data) {
+        $scope.obj = data;
+        blockUI.stop();
+    });
+
 });
 
 angular.module('ExampleLookupApp', ['components']);

@@ -2,18 +2,27 @@
 <html ng-app="ExampleLookupApp">
 <head>
     <title>HelloApp</title>
+
     <link href="css/bootstrap.min.css" rel="stylesheet" />
     <link href="css/angular-block-ui.min.css" rel="stylesheet" />
+    <link href="http://angular-ui.github.com/ng-grid/css/ng-grid.css" rel="stylesheet" />
 </head>
-<body ng-controller="lookupController">
-    <h3>lookup example</h3>
-    <lookup myoption="blabla"></lookup>
-    
+<body>
+    <h2>SPA</h2>
+    <a href="#/list">List form</a> |
+    <a href="#/lookup">Lookup example</a>
+    <hr>
+
+    <div ng-view></div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.min.js"></script>
     <script src="js/angular-block-ui.min.js"></script>
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular-route.min.js"></script>
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular-resource.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular-route.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular-resource.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.9.0/ui-bootstrap-tpls.min.js"></script>
+    <!--BUG Cannot read property 'off' of null <script src="http://angular-ui.github.com/ng-grid/lib/ng-grid.js"></script> -->
+    <script src="js/ng-grid-2.0.14.min.js"></script>
     <script src="app.js"></script>
 </body>
 </html>

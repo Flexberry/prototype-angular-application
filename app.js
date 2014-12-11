@@ -1,3 +1,9 @@
+var ajax = breeze.config.initializeAdapterInstance('ajax', 'angular');
+breeze.config.initializeAdapterInstance('modelLibrary', 'backingStore', true);
+breeze.config.initializeAdapterInstance('dataService', 'odata', true);
+
+OData.defaultHttpClient.enableJsonpCallback = true;
+
 var app = angular.module('components', ['ngResource', 'ngRoute', 'ui.bootstrap', 'blockUI']);
 
 app.config(function(blockUIConfig) {
@@ -6,15 +12,13 @@ app.config(function(blockUIConfig) {
 });
 
 app.factory('service', function ($resource) {
-    var odataUrl = 'http://services.odata.org/V4/Northwind/Northwind.svc/Employees';
-    return $resource('', {},
-        {
-            'getAll': { method: 'GET', url: odataUrl },
-            'save': { method: 'POST', url: odataUrl },
-            'update': { method: 'PUT', params: { key: '@key' }, url: odataUrl + '(:key)' },
-            'query': { method: 'GET', params: { key: '@key' }, url: odataUrl + '(:key)' },
-            'remove': { method: 'DELETE', params: { key: '@key' }, url: odataUrl + '(:key)' }
-        });
+    var dataService = new breeze.DataService({
+        serviceName: 'http://services.odata.org/V4/Northwind/Northwind.svc',
+        hasServerMetadata: false,
+        useJsonp: false
+    });
+    var manager = new breeze.EntityManager({ dataService: dataService });
+    return manager;
 });
 
 app.controller('lookupController', function ($scope, $modal, $log, service, blockUI) {
@@ -28,8 +32,12 @@ app.controller('lookupController', function ($scope, $modal, $log, service, bloc
             controller: 'lookupModalController',
             size: size,
             resolve: {
-                getItems: function () {
-                    return (new service()).$getAll;
+                getItems: function() {
+                    return function() {
+                        var query = new breeze.EntityQuery()
+                            .from('Employees');
+                        return service.executeQuery(query);
+                    };
                 },
                 selectedItem: function() {
                     return $scope.value
@@ -55,8 +63,11 @@ app.controller('lookupModalController', function ($scope, $modalInstance, getIte
     var block = blockUI.instances.get('block');
     block.start();
     getItems().then(function(data) {
-        $scope.items = data.value;
+        $scope.items = data.httpResponse.data.value.results;
         block.stop();
+        $scope.$apply();
+    }).fail(function(e) {
+        alert(e);
     });
 
     $scope.selected = {

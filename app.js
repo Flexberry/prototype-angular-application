@@ -136,4 +136,4 @@ app.controller('editformController', function($scope, $modal, $log, service, blo
 
 });
 
-angular.module('ExampleLookupApp', ['components']);
+angular.module('ExampleApp', ['components']);

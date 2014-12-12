@@ -6,14 +6,14 @@ app.config(function(blockUIConfig, $routeProvider) {
 
     $routeProvider
         .when('/list', {
-            templateUrl: 'listform.html'
+            templateUrl: 'templates/listform.html'
         })
         .when('/edit/:id', {
-            templateUrl: 'editform.html',
+            templateUrl: 'templates/editform.html',
             controller: 'editformController'
         })
         .when('/lookup', {
-            templateUrl: 'lookupExampleForm.html'
+            templateUrl: 'templates/lookupExampleForm.html'
         })
         .when('/home', {
             redirectTo: 'list'
@@ -22,7 +22,7 @@ app.config(function(blockUIConfig, $routeProvider) {
             redirectTo: 'list'
         })
         .otherwise({
-            templateUrl: '404.html'
+            templateUrl: 'templates/404.html'
         });
 });
 
@@ -45,7 +45,7 @@ app.controller('lookupController', function($scope, $modal, $log, service, block
 
     $scope.open = function(size) {
         var modalInstance = $modal.open({
-            templateUrl: 'lookupModal.html',
+            templateUrl: 'templates/lookupModal.html',
             controller: 'lookupModalController',
             size: size,
             resolve: {
@@ -99,7 +99,7 @@ app.directive('lookup', function() {
         link: function(scope, element, attrs) {
             scope.attrs = attrs;
         },
-        templateUrl: 'lookup.html',
+        templateUrl: 'templates/lookup.html',
         controller: 'lookupController'
     }
 });
@@ -121,7 +121,7 @@ app.controller('wolvController', function($scope, $modal, $log, service, blockUI
 app.directive('wolv', function() {
     return {
         restrict: 'E',
-        templateUrl: 'wolv.html',
+        templateUrl: 'templates/wolv.html',
         controller: 'wolvController'
     }
 });

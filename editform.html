@@ -1,2 +1,69 @@
 <h3>editform example</h3>
-<div>{{obj.FirstName}} {{obj.LastName}}</div>
+
+<form name="eform" class="form-horizontal" role="form">
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">FirstName</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" ng-model="obj.FirstName" placeholder="(no value)" required>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">LastName</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" ng-model="obj.LastName" placeholder="(no value)" required>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Title</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" ng-model="obj.Title" placeholder="(no value)">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">TitleOfCourtesy</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" ng-model="obj.TitleOfCourtesy" placeholder="(no value)">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">BirthDate</label>
+        <div class="col-sm-10">
+            <p class="input-group">
+                <input type="text" class="form-control" datepicker-popup="dd.MM.yyyy" ng-model="obj.BirthDate" placeholder="(no value)" is-open="BirthDateIsOpen"/>
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="$event.preventDefault(); $event.stopPropagation(); BirthDateIsOpen = !BirthDateIsOpen;"><i class="glyphicon glyphicon-calendar"></i></button>
+              </span>
+            </p>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">PostalCode</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" ng-model="obj.PostalCode" placeholder="(no value)">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">ReportsTo</label>
+        <div class="col-sm-10">
+            <input name="inputReportsTo" type="number" class="form-control" ng-model="obj.ReportsTo" placeholder="(no value)">
+            <div class="alert alert-danger" role="alert" ng-if="eform.inputReportsTo.$error.number"><strong>Oh snap!</strong> Not valid number.</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Notes</label>
+        <div class="col-sm-10">
+            <textarea class="form-control" rows="3" ng-model="obj.Notes" placeholder="(no value)"></textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">lookup example (no binding)</label>
+        <div class="col-sm-10">
+            <lookup></lookup>
+        </div>
+    </div>
+</form>

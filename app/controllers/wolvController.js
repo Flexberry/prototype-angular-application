@@ -7,7 +7,7 @@
                 $location.path('/edit/' + rowItem.entity.EmployeeID);
             }
         };
-        (new service()).$getAll().then(function(data) {
+        (new service()).$getAll({res: 'Employees'}).then(function(data) {
             $scope.gridData = data.value;
         });
 

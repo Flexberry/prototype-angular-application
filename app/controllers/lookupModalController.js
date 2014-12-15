@@ -7,7 +7,7 @@
 
         var block = blockUI.instances.get('block');
         block.start();
-        getItems().then(function(data) {
+        getItems({res: 'Employees'}).then(function(data) {
             $scope.items = data.value;
             block.stop();
         });

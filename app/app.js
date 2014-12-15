@@ -15,6 +15,14 @@
                 templateUrl: 'app/forms/Employees/EmployeesE.html',
                 controller: 'employeesControllerE'
             })
+            .when('/Customers', {
+                templateUrl: 'app/forms/Customers/CustomersL.html',
+                controller: 'customersControllerL'
+            })
+            .when('/Customers/:id', {
+                templateUrl: 'app/forms/Customers/CustomersE.html',
+                controller: 'customersControllerE'
+            })
             .when('/lookup', {
                 templateUrl: 'app/views/lookupExampleForm.html'
             })

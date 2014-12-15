@@ -4,12 +4,11 @@
             data: 'gridData',
             multiSelect: false,
             afterSelectionChange: function(rowItem, event) {
-                $location.path('/edit/' + rowItem.entity.EmployeeID);
+                // define it in "<resourceName>controllerL":
+                if (typeof $scope.redirectToEdit === 'function') {
+                    $scope.redirectToEdit(rowItem);
+                }
             }
         };
-        (new service()).$getAll({res: 'Employees'}).then(function(data) {
-            $scope.gridData = data.value;
-        });
-
     });
 })();

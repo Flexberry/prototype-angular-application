@@ -7,21 +7,22 @@
         blockUIConfig.autoBlock = false;
 
         $routeProvider
-            .when('/list', {
-                templateUrl: 'app/views/listform.html'
+            .when('/Employees', {
+                templateUrl: 'app/forms/Employees/EmployeesL.html',
+                controller: 'employeesControllerL'
             })
-            .when('/edit/:id', {
-                templateUrl: 'app/views/editform.html',
-                controller: 'editformController'
+            .when('/Employees/:id', {
+                templateUrl: 'app/forms/Employees/EmployeesE.html',
+                controller: 'employeesControllerE'
             })
             .when('/lookup', {
                 templateUrl: 'app/views/lookupExampleForm.html'
             })
             .when('/home', {
-                redirectTo: 'list'
+                templateUrl: 'app/views/home.html'
             })
             .when('/', {
-                redirectTo: 'list'
+                redirectTo: 'home'
             })
             .otherwise({
                 templateUrl: 'app/views/404.html'
